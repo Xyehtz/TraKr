@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"trakr/host"
+)
 
 func main() {
-	fmt.Println("Hello World!")
+	information, err := host.GetHostInformation()
+
+	if err != nil {
+		log.Printf("%v", err)
+	}
+
+	fmt.Println(information)
 }
