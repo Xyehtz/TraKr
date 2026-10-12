@@ -18,6 +18,7 @@
         zig
         zig-zlint
         zig-shell-completions
+        screen
       ];
     };
   };
