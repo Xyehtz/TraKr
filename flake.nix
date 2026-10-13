@@ -14,7 +14,10 @@
   in {
     devShells.x86_64-linux.default = pkgs.mkShell {
       buildInputs = with pkgs; [
-        go
+        zig
+        zig-zlint
+        zig-shell-completions
+        screen # This one is to get the Zig documentation
       ];
     };
   };
