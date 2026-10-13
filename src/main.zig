@@ -15,7 +15,9 @@ fn getHostInfo(io: Io, dir: std.Io.Dir) !void {
     var buffer: [64]u8 = undefined;
 
     const content = try Io.Dir.readFile(dir, io, "/etc/hostname", &buffer);
-    std.log.debug("Hostname obtained from \"/etc/hostname\" is {s}", .{content});
+
+    const log = std.log.scoped(.agent);
+    log.debug("Hostname obtained from \"/etc/hostname\" is {s}", .{content});
 
     // NOTE: To self
     // If I wanted to return the hostname back to main or whatever is calling this method
