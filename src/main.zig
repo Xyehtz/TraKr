@@ -33,16 +33,21 @@ fn getOSInfo(io: Io, dir: Io.Dir, allocator: std.mem.Allocator, log: type) !void
     // The file size of /etc/os-release may differ from OS to OS
     // Even in the case of NixOS it may change because of Version, Codename, Build ID, etc...
     const file = try dir.openFile(io, "/etc/os-release", .{ .mode = .read_only });
+    defer file.close(io);
+
     const file_stats = try file.stat(io);
     const file_size = file_stats.size;
 
     const buffer = try allocator.alloc(u8, file_size);
+    var reader = file.reader(io, buffer);
 
-    // This is returning everything on the file, but I don't need all that,
-    // so probably using File.reader to get what I need would be the best option
-    const content = try dir.readFile(io, "/etc/os-release", buffer);
-
-    log.debug("{s}", .{content});
+    while (try reader.interface.takeDelimiter('\n')) |line| {
+        if (std.mem.startsWith(u8, line, "NAME=")) {
+            log.debug("Found OS Name: {s}\n", .{line[5..]});
+        } else if (std.mem.startsWith(u8, line, "VERSION=")) {
+            log.debug("Found OS Version: {s}\n", .{line[9 .. line.len - 1]});
+        }
+    }
 
     defer allocator.free(buffer);
 }
