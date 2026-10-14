@@ -1,6 +1,6 @@
 .{
     .name = .TraKr,
-    .version = "0.1.0.alpha+2",
+    .version = "0.1.0",
     .minimum_zig_version = "0.16.0",
     .paths = .{""},
     .fingerprint = 0x2e14d1c897180336,
