@@ -20,7 +20,7 @@ fn getHostInfo(io: Io, dir: Io.Dir, log: type) !void {
 
     const content = try Io.Dir.readFile(dir, io, "/etc/hostname", &buffer);
 
-    log.debug("Hostname obtained from \"/etc/hostname\" is {s}", .{content});
+    log.debug("Found Hostname: {s}", .{content});
 
     // NOTE: To self
     // If I wanted to return the hostname back to main or whatever is calling this method
